@@ -20,9 +20,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class ScoreServiceTests {
@@ -52,20 +56,21 @@ public class ScoreServiceTests {
 		score = ScoreFactory.createScoreEntity();
 		user = UserFactory.createUserEntity();
 
-		Mockito.when(userService.authenticated()).thenReturn(user);
+		when(userService.authenticated()).thenReturn(user);
 
-		Mockito.when(movieRepository.findById(existingMovieId)).thenReturn(Optional.of(movie));
-		Mockito.when(movieRepository.findById(nonExistingMovieId)).thenReturn(Optional.empty());
+		when(movieRepository.findById(existingMovieId)).thenReturn(Optional.of(movie));
+		when(movieRepository.findById(nonExistingMovieId)).thenReturn(Optional.empty());
 
-		Mockito.when(scoreRepository.saveAndFlush(any())).thenReturn(score);
-		Mockito.when(movieRepository.save(any())).thenReturn(movie);
+		when(scoreRepository.saveAndFlush(any())).thenReturn(score);
+		when(movieRepository.save(any())).thenReturn(movie);
 	}
 	
 	@Test
 	public void saveScoreShouldReturnMovieDTO() {
+		ScoreDTO scoreDTO = new ScoreDTO(score);
 
-		MovieDTO dto = service.saveScore(new ScoreDTO(score));
-		Assertions.assertNotNull(dto);
+		MovieDTO result = service.saveScore(scoreDTO);
+		Assertions.assertNotNull(result);
 	}
 	
 	@Test
