@@ -20,11 +20,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -52,8 +49,9 @@ public class ScoreServiceTests {
 	void setUp() throws Exception {
 		existingMovieId = 1L;
 		nonExistingMovieId = 2L;
-		movie = MovieFactory.createMovieEntity();
 		score = ScoreFactory.createScoreEntity();
+		movie = MovieFactory.createMovieEntity();
+		movie.getScores().add(score);
 		user = UserFactory.createUserEntity();
 
 		when(userService.authenticated()).thenReturn(user);
